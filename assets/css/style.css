@@ -1,0 +1,62 @@
+#got-jumbo {
+	background: url("");
+}
+
+body {
+	background-image: url("https://www.pixelstalk.net/wp-content/uploads/2015/11/game-of-thrones-background-desktop-hd-free-download.jpg");
+	background-color: #cccccc;
+	color: black;
+	font-size: 40px;
+	font-weight: bold;
+	
+ }
+
+#heading {
+	font-weight: bold;
+	text-align: center;
+	color: maroon;
+}
+
+form{
+	font-size: 30px;
+	font-weight: bold;
+}
+
+#questions {
+	font-size: 30px;
+	font-weight: bold;
+}
+
+#form-group {
+	font-size: 30px;
+	font-weight: bold;
+}
+
+#content {
+	font-size: 30px;
+	font-weight: bold;
+}
+
+#quiz {
+	font-size: 30px;
+	font-weight: bold;
+}
+.well{
+	background-color: maroon;
+	}
+
+#submit-div {
+	font-size: 30px;
+	font-weight: bold;
+}
+
+.footer {
+	padding: 30px 0;
+	text-align: right;
+	color: maroon;
+}
+
+.twd-opt {
+	margin-right: 20px;
+	font-size: 40px;
+}
