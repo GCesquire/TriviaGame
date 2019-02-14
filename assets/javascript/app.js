@@ -1,34 +1,34 @@
 $(document).ready(function() {
   //Creating variable to track the question & "slide" numbers
-  var questionCounter = 0;
+  var queries = 0;
   
   // timeout 
-  var ansTimeout = 2000;
+  var transitionTimeout = 2000;
   
   //Creating score variables
-  var correct = 0;
-  var incorrect = 0;
-  var missed = 0;
+  var rightAnswers = 0;
+  var wrongAnswers = 0;
+  var passedAnswers = 0;
   
   //Creating array of user's answers
-  var userAns = [];
+  var playerAnswers = [];
   
   //Creating an array of objects with the questions, answer options, and correct answer
   var questions = [
   {
     question: "Which of these is NOT a Noble Westerosi House?",
-    answer: ["Majere", "Stark", "Lannister", "Targaryen", "Martell"],
-    correctAnswer: 0
+    answer: ["Lannister", "Stark", "Majere", "Targaryen", "Martell"],
+    correctAnswer: 2
   },
   {
     question: "Who is the Kingslayer",
-    answer: ["Gregor Clegane", "Jaime Lannister", "Oberyn Martell", "Theon Greyjoy", "Ramsey Snow"],
-    correctAnswer: 1
+    answer: ["Jaime Lannister", "Gregor Clegane", "Oberyn Martell", "Theon Greyjoy", "Ramsey Snow"],
+    correctAnswer: 0
   },
   {
     question: "What song was played at the infamous Red Wedding?",
-    answer: ["The Bear And The Maiden Fair", "Hands Of Gold", "Greensleeves", "The Rains Of Castemere", "Gentle Mother Font Of Mercy"],
-    correctAnswer: 3
+    answer: ["The Bear And The Maiden Fair", "The Rains Of Castemere", "Greensleeves", "Hands Of Gold", "Gentle Mother Font Of Mercy"],
+    correctAnswer: 1
   },
   {
     question: "What are the name of Daenarys Targaryen's dragons?",
@@ -37,8 +37,8 @@ $(document).ready(function() {
   },
   {
     question: "At what battle was Tyrion Lannister disfigured?",
-    answer: ["The Battle Of Hardhomme", "The Battle Of The Bastards", "The Battle Of Whispering Woods", "The Battle Of Blackwater", "The Battle Of The Trident"],
-    correctAnswer: 3
+    answer: ["The Battle Of Hardhomme", "The Battle Of The Bastards", "The Battle Of Whispering Woods", "The Battle Of The Trident", "The Battle Of Blackwater"],
+    correctAnswer: 4
   },
   {
     question: "What is the name of Jon Snow's direwolf?",
@@ -68,14 +68,14 @@ $(document).ready(function() {
   
   //Function to submit answers
   const submitAnswers = () => {
-    $("#submit").on("click", function(e) {
-      e.preventDefault();
-      userAns.length = 0;
+    $("#submit").on("click", function(x) {
+      x.preventDefault();
+      playerAnswers.length = 0;
         
       //Record user answer to question
       var userSelection = $("#answers input:radio[name=optionsRadios]:checked").val();
-      userAns.push(userSelection);
-      console.log(userAns);
+      playerAnswers.push(userSelection);
+      console.log(playerAnswers);
       nextQ();
     });
   };
@@ -93,11 +93,11 @@ $(document).ready(function() {
     $("#timer-info").html("Time remaining: " + timeLeft + " seconds");
     if (timeLeft === 0) {
       stopTimer();
-      userAns.length = 0;		
+      playerAnswers.length = 0;		
       //Record user answer to question
       var userSelection = $("#answers input:radio[name=optionsRadios]:checked").val();
-      userAns.push(userSelection);
-      console.log(userAns);
+      playerAnswers.push(userSelection);
+      console.log(playerAnswers);
       nextQ();
     };
   };
@@ -121,8 +121,8 @@ $(document).ready(function() {
     //Empty array for user answer
     responseOptions.empty();
       
-    for (var i = 0; i < questions[questionCounter].answer.length; i++) {
-      responseOptions.append('<label><input type="radio" name="optionsRadios" id="optionsRadios2" value="' + [i] +'"><div class="got-display">' + questions[questionCounter].answer[i] + '</div></input><br></label>');
+    for (var i = 0; i < questions[queries].answer.length; i++) {
+      responseOptions.append('<label><input type="radio" name="optionsRadios" id="optionsRadios2" value="' + [i] +'"><div class="got-display">' + questions[queries].answer[i] + '</div></input><br></label>');
     };
   };
   
@@ -130,7 +130,7 @@ $(document).ready(function() {
   const displayQ = () => {
     clearQ();
     resetTimer();
-    $(".questions").html(questions[questionCounter].question);
+    $(".questions").html(questions[queries].question);
     //Calling the function to display the response options
     createRadios();
     //Creating submit button
@@ -140,7 +140,7 @@ $(document).ready(function() {
   };
   
   //Display start page
-  const displayStart = () => {
+  const gameStart = () => {
     $("#content").append('<a href="#" class="btn btn-primary btn-lg" id="start-button">' + "Start" + '</a>');
     //Start game
     $("#start-button").on("click", function(event) {
@@ -153,25 +153,25 @@ $(document).ready(function() {
   
   //Reset for end of game
   const reset = () => {
-    questionCounter = 0;
-    correct = 0;
-    incorrect = 0;
-    missed = 0;
-    userAns = [];
+    queries = 0;
+    rightAnswers = 0;
+    wrongAnswers = 0;
+    passedAnswers = 0;
+    playerAnswers = [];
     resetTimer();
   };
   
   //Display end page
   const displayEnd = () => {
     clearQ();
-    $("#content").append('<h3>' + "Correct answers: " + correct + '</h3><br><h3>' + "Incorrect answers: " + incorrect + '</h3><br><h3>' + "Skipped questions: " + missed + '</h3><br><br><a href="#" class="btn btn-primary btn-lg" id="restart-button">' + "Restart Game" + '</a>');
+    $("#content").append('<h3>' + "Correct answers: " + rightAnswers + '</h3><br><h3>' + "Incorrect answers: " + wrongAnswers + '</h3><br><h3>' + "Skipped questions: " + passedAnswers + '</h3><br><br><a href="#" class="btn btn-primary btn-lg" id="restart-button">' + "Restart Game" + '</a>');
     //Restart game
     $("#restart-button").on("click", function(event) {
       event.preventDefault();
       //Displays the first question
       reset();
       clearQ();
-      displayStart();
+      gameStart();
     });
   };
   
@@ -195,20 +195,20 @@ $(document).ready(function() {
   //Showing whether answer was right/wrong
   const checkQ = () => {
     clearQ();
-    var correctAnswer = questions[questionCounter].correctAnswer;
-    if (userAns[0] == questions[questionCounter].correctAnswer) {
+    var correctAnswer = questions[queries].correctAnswer;
+    if (playerAnswers[0] == questions[queries].correctAnswer) {
       $("#content").append('<h3>'+"Congratulations! You chose the right answer!" + '</h3>');
-      correct++;
+      rightAnswers++;
       displayTimer();
     }
-    else if (userAns[0] === undefined) {
-      $("#content").append('<h3>'+"Time's up!" + '</h3><br><br><h3>' + "The correct answer was: " + questions[questionCounter].answer[correctAnswer] + '</h3>');
-      missed++;
+    else if (playerAnswers[0] === undefined) {
+      $("#content").append('<h3>'+"Time's up!" + '</h3><br><br><h3>' + "The correct answer was: " + questions[queries].answer[correctAnswer] + '</h3>');
+      passedAnswers++;
       displayTimer();
     }
     else {
-      $("#content").append('<h3>'+"You chose the wrong answer." + '</h3><br><br><h3>' + "The correct answer was: " + questions[questionCounter].answer[correctAnswer] + '</h3>');
-      incorrect++;
+      $("#content").append('<h3>'+"You chose the wrong answer." + '</h3><br><br><h3>' + "The correct answer was: " + questions[queries].answer[correctAnswer] + '</h3>');
+      wrongAnswers++;
       displayTimer();
     };
   };
@@ -217,13 +217,13 @@ $(document).ready(function() {
   const nextQ = () => {
     checkQ();
     //Incrementing the count by 1
-    questionCounter++;
+    queries++;
     //If the count is the same as the length of the question array, the counts reset to 0
-    if (questionCounter === questions.length) {
-      setTimeout(displayEnd, ansTimeout);
+    if (queries === questions.length) {
+      setTimeout(displayEnd, transitionTimeout);
     } 
     else {
-      setTimeout(displayQ, ansTimeout);
+      setTimeout(displayQ, transitionTimeout);
     };
   };
   
@@ -235,6 +235,6 @@ $(document).ready(function() {
   };
   
   //Displays the start page
-  displayStart();
+  gameStart();
   
   });
