@@ -17,37 +17,57 @@ $(document).ready(function() {
   var questions = [
   {
     question: "Which of these is NOT a Noble Westerosi House?",
-    choices: ["Majere", "Stark", "Lannister", "Targaryen", "Martell"],
-    choicesAnswer: 0
+    answer: ["Majere", "Stark", "Lannister", "Targaryen", "Martell"],
+    correctAnswer: 0
   },
   {
     question: "Who is the Kingslayer",
-    choices: ["Gregor Clegane", "Jaime Lannister", "Oberyn Martell", "Theon Greyjoy", "Ramsey Snow"],
-    choicesAnswer: 1
+    answer: ["Gregor Clegane", "Jaime Lannister", "Oberyn Martell", "Theon Greyjoy", "Ramsey Snow"],
+    correctAnswer: 1
   },
   {
     question: "What song was played at the infamous Red Wedding?",
-    choices: ["The Bear And The Maiden Fair", "Hands Of Gold", "Greensleeves", "The Rains Of Castemere", "Gentle Mother Font Of Mercy"],
-    choicesAnswer: 3
+    answer: ["The Bear And The Maiden Fair", "Hands Of Gold", "Greensleeves", "The Rains Of Castemere", "Gentle Mother Font Of Mercy"],
+    correctAnswer: 3
   },
   {
-    question: "Which of these is  NOT one of Daenarys Targaryen's dragons?",
-    choices: ["Drogon, Viserys, Rhaegal", "Drogon, Viserion, Rhaegal", "Drogon, Drogo, Rhaegar", "Drogon, Smaug, Tiamat", "Drogon, Paladine, Bahamut"],
-    choicesAnswer: 1
+    question: "What are the name of Daenarys Targaryen's dragons?",
+    answer: ["Drogon, Viserys, Rhaegal", "Drogon, Viserion, Rhaegal", "Drogon, Drogo, Rhaegar", "Drogon, Smaug, Tiamat", "Drogon, Paladine, Bahamut"],
+    correctAnswer: 1
   },
   {
     question: "At what battle was Tyrion Lannister disfigured?",
-    choices: ["The Battle Of Hardhomme", "The Battle Of The Bastards", "The Battle Of Whispering Woods", "The Battle Of Blackwater", "The Battle Of The Trident"],
-    choicesAnswer: 3
+    answer: ["The Battle Of Hardhomme", "The Battle Of The Bastards", "The Battle Of Whispering Woods", "The Battle Of Blackwater", "The Battle Of The Trident"],
+    correctAnswer: 3
   },
   {
     question: "What is the name of Jon Snow's direwolf?",
-    choices: ["Ghost", "Nymeria", "Summer", "Shaggydog", "Grey Wind"],
-    choicesAnswer: 0
+    answer: ["Ghost", "Nymeria", "Summer", "Shaggydog", "Grey Wind"],
+    correctAnswer: 0
+  },
+  {
+    question: "Who was Margaery Tyrell's first husband?",
+    answer: ["Joffery Lannister", "Tommen Lannister", "Loras Tyrell", "Petyr Baelish", "Renly Baratheon"],
+    correctAnswer: 4
+  },
+  {
+    question: "Where was Daenarys Targaryen born?",
+    answer: ["Valyria", "King's Landing", "Dragonstone", "Dorne", "Vaes Dothrak"],
+    correctAnswer: 2
+  },
+  {
+    question: "What is the name of Arya Stark's sword?",
+    answer: ["Ice", "Longclaw", "Oathkeeper", "Needle", "Widow's Wail"],
+    correctAnswer: 3
+  },
+  {
+    question: "What is Jon Snow's birthname?",
+    answer: ["Aegon Targaryen", "Benjen Stark", "Jorah Mormont", "Howland Reed", "Jon Arryn"],
+    correctAnswer: 0
   }];
   
   //Function to submit answers
-  function submitAnswers() {
+  const submitAnswers = () => {
     $("#submit").on("click", function(e) {
       e.preventDefault();
       userAns.length = 0;
@@ -64,13 +84,13 @@ $(document).ready(function() {
   var timeLeft = 8;
   var increment;
   
-  function runTimer() {
+  const runTimer = () => {
     increment = setInterval(decrement, 1000);
   };
   
-  function decrement() {
+  const decrement = () => {
     timeLeft--;
-    $("#time-left").html("Time remaining: " + timeLeft + " seconds");
+    $("#timer-info").html("Time remaining: " + timeLeft + " seconds");
     if (timeLeft === 0) {
       stopTimer();
       userAns.length = 0;		
@@ -82,32 +102,32 @@ $(document).ready(function() {
     };
   };
   
-  function resetTimer() {
+  const resetTimer = () => {
     timeLeft = 8;
-    $("#time-left").html("Time remaining: " + timeLeft + " seconds");
+    $("#timer-info").html("Time remaining: " + timeLeft + " seconds");
   };
   
-  function displayTimer() {
-    $("#time-left").html("Answer Review");
+  const displayTimer = () => {
+    $("#timer-info").html("Answer Review");
   };
   
-  function stopTimer() {
+  const stopTimer = () => {
     clearInterval(increment);
   };
   
   //Function to display the given response options
-  function createRadios() {
+  const createRadios = () => {
     var responseOptions = $("#answers");
     //Empty array for user answer
     responseOptions.empty();
       
-    for (var i = 0; i < questions[questionCounter].choices.length; i++) {
-      responseOptions.append('<label><input type="radio" name="optionsRadios" id="optionsRadios2" value="' + [i] +'"><div class="twd-opt">' + questions[questionCounter].choices[i] + '</div></input><br></label>');
+    for (var i = 0; i < questions[questionCounter].answer.length; i++) {
+      responseOptions.append('<label><input type="radio" name="optionsRadios" id="optionsRadios2" value="' + [i] +'"><div class="got-display">' + questions[questionCounter].answer[i] + '</div></input><br></label>');
     };
   };
   
   //Function to display the given question
-  function displayQ() {
+  const displayQ = () => {
     clearQ();
     resetTimer();
     $(".questions").html(questions[questionCounter].question);
@@ -120,7 +140,7 @@ $(document).ready(function() {
   };
   
   //Display start page
-  function displayStart() {
+  const displayStart = () => {
     $("#content").append('<a href="#" class="btn btn-primary btn-lg" id="start-button">' + "Start" + '</a>');
     //Start game
     $("#start-button").on("click", function(event) {
@@ -132,7 +152,7 @@ $(document).ready(function() {
   };
   
   //Reset for end of game
-  function reset() {
+  const reset = () => {
     questionCounter = 0;
     correct = 0;
     incorrect = 0;
@@ -142,7 +162,7 @@ $(document).ready(function() {
   };
   
   //Display end page
-  function displayEnd() {
+  const displayEnd = () => {
     clearQ();
     $("#content").append('<h3>' + "Correct answers: " + correct + '</h3><br><h3>' + "Incorrect answers: " + incorrect + '</h3><br><h3>' + "Skipped questions: " + missed + '</h3><br><br><a href="#" class="btn btn-primary btn-lg" id="restart-button">' + "Restart Game" + '</a>');
     //Restart game
@@ -156,7 +176,7 @@ $(document).ready(function() {
   };
   
   //Function to clear the question
-  function clearQ() {
+  const clearQ = () => {
     var questionDiv = $(".questions");
     questionDiv.empty();
   
@@ -173,28 +193,28 @@ $(document).ready(function() {
   };
   
   //Showing whether answer was right/wrong
-  function checkQ() {
+  const checkQ = () => {
     clearQ();
-    var correctAnswer = questions[questionCounter].choicesAnswer;
-    if (userAns[0] == questions[questionCounter].choicesAnswer) {
+    var correctAnswer = questions[questionCounter].correctAnswer;
+    if (userAns[0] == questions[questionCounter].correctAnswer) {
       $("#content").append('<h3>'+"Congratulations! You chose the right answer!" + '</h3>');
       correct++;
       displayTimer();
     }
     else if (userAns[0] === undefined) {
-      $("#content").append('<h3>'+"Time's up!" + '</h3><br><br><h3>' + "The correct answer was: " + questions[questionCounter].choices[correctAnswer] + '</h3>');
+      $("#content").append('<h3>'+"Time's up!" + '</h3><br><br><h3>' + "The correct answer was: " + questions[questionCounter].answer[correctAnswer] + '</h3>');
       missed++;
       displayTimer();
     }
     else {
-      $("#content").append('<h3>'+"You chose the wrong answer." + '</h3><br><br><h3>' + "The correct answer was: " + questions[questionCounter].choices[correctAnswer] + '</h3>');
+      $("#content").append('<h3>'+"You chose the wrong answer." + '</h3><br><br><h3>' + "The correct answer was: " + questions[questionCounter].answer[correctAnswer] + '</h3>');
       incorrect++;
       displayTimer();
     };
   };
   
   //Function to change the question 
-  function nextQ() {
+  const nextQ = () => {
     checkQ();
     //Incrementing the count by 1
     questionCounter++;
@@ -208,7 +228,7 @@ $(document).ready(function() {
   };
   
   //Function to call the first question
-  function firstQ() {
+  const firstQ = () => {
     var startContent = $("#content");
     startContent.empty(); 
     displayQ();
