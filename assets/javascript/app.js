@@ -103,10 +103,8 @@ $(document).ready(function() {
     clearInterval(setTime);
   };
   
-  //Function to display the given response options
-  const createRadios = () => {
+  const optionGenerator = () => {
     var responseOptions = $("#answers");
-    //Empty array for user answer
     responseOptions.empty();
       
     for (var i = 0; i < questions[queries].answer.length; i++) {
@@ -114,33 +112,26 @@ $(document).ready(function() {
     };
   };
   
-  //Function to display the given question
-  const displayQ = () => {
+  const displayQuestions = () => {
     refreshQuestion();
     resetTimer();
     $(".questions").html(questions[queries].question);
-    //Calling the function to display the response options
-    createRadios();
-    //Creating submit button
+    optionGenerator();
     $("#submit-div").append('<button type="submit" class="btn btn-default" id="submit">' + "Submit" + '</button>');
     timer()
     submitAnswers();
   };
   
-  //Display start page
   const gameStart = () => {
     $("#content").append('<a href="#" class="btn btn-primary btn-lg" id="start-button">' + "Start" + '</a>');
-    //Start game
     $("#start-button").on("click", function(event) {
       event.preventDefault();
-      //Displays the first question
       initialQuestion();
       resetTimer();
     });
   };
   
-  //Reset for end of game
-  const reset = () => {
+  const resetGame = () => {
     queries = 0;
     rightAnswers = 0;
     wrongAnswers = 0;
@@ -149,77 +140,64 @@ $(document).ready(function() {
     resetTimer();
   };
   
-  //Display end page
-  const displayEnd = () => {
+  const endPage = () => {
     refreshQuestion();
-    $("#content").append('<h3>' + "Correct answers: " + rightAnswers + '</h3><br><h3>' + "Incorrect answers: " + wrongAnswers + '</h3><br><h3>' + "Skipped questions: " + passedAnswers + '</h3><br><br><a href="#" class="btn btn-primary btn-lg" id="restart-button">' + "Restart Game" + '</a>');
-    //Restart game
+    $("#content").append('<h2>' + "Correct answers: " + rightAnswers + '</h2><br><h2>' + "Incorrect answers: " + wrongAnswers + '</h2><br><h2>' + "Skipped questions: " + passedAnswers + '</h2><br><br><a href="#" class="btn btn-primary btn-lg" id="restart-button">' + "Restart Game" + '</a>');
     $("#restart-button").on("click", function(event) {
       event.preventDefault();
-      //Displays the first question
-      reset();
+      resetGame();
       refreshQuestion();
       gameStart();
     });
   };
   
-  //Function to clear the question
   const refreshQuestion = () => {
     var questionDiv = $(".questions");
     questionDiv.empty();
-  
     var answersDiv = $("#answers");
     answersDiv.empty();
-  
     var submitDiv = $("#submit-div");
     submitDiv.empty();
-  
     var contentDiv = $("#content");
     contentDiv.empty();
-  
     stopTimer();
   };
   
-  //Showing whether answer was right/wrong
-  const checkQ = () => {
+  const checkQuestion = () => {
     refreshQuestion();
     var correctAnswer = questions[queries].correctAnswer;
     if (playerAnswers[0] == questions[queries].correctAnswer) {
-      $("#content").append('<h3>'+"Congratulations! You chose the right answer!" + '</h3>');
+      $("#content").append('<h2>'+"Congratulations! You chose the right answer!" + '</h2>');
       rightAnswers++;
       displayTimer();
     }
     else if (playerAnswers[0] === undefined) {
-      $("#content").append('<h3>'+"Time's up!" + '</h3><br><br><h3>' + "The correct answer was: " + questions[queries].answer[correctAnswer] + '</h3>');
+      $("#content").append('<h2>'+"Time's up!" + '</h2><br><br><h2>' + "The correct answer was: " + questions[queries].answer[correctAnswer] + '</h2>');
       passedAnswers++;
       displayTimer();
     }
     else {
-      $("#content").append('<h3>'+"You chose the wrong answer." + '</h3><br><br><h3>' + "The correct answer was: " + questions[queries].answer[correctAnswer] + '</h3>');
+      $("#content").append('<h2>'+"You chose the wrong answer." + '</h2><br><br><h2>' + "The correct answer was: " + questions[queries].answer[correctAnswer] + '</h2>');
       wrongAnswers++;
       displayTimer();
     };
   };
   
-  //Function to change the question 
   const updateQuestion = () => {
-    checkQ();
-    //Incrementing the count by 1
+    checkQuestion();
     queries++;
-    //If the count is the same as the length of the question array, the counts reset to 0
     if (queries === questions.length) {
-      setTimeout(displayEnd, transitionTimeout);
+      setTimeout(endPage, transitionTimeout);
     } 
     else {
-      setTimeout(displayQ, transitionTimeout);
+      setTimeout(displayQuestions, transitionTimeout);
     };
   };
   
-  //Function to call the first question
   const initialQuestion = () => {
     var startContent = $("#content");
     startContent.empty(); 
-    displayQ();
+    displayQuestions();
   };
   
   gameStart();

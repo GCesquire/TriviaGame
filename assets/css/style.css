@@ -4,7 +4,7 @@
 
 body {
 	background-image: url("https://www.pixelstalk.net/wp-content/uploads/2015/11/game-of-thrones-background-desktop-hd-free-download.jpg");
-	color: black;
+	color: whitesmoke;
 	font-size: 40px;
 	font-weight: bold;
  }
@@ -23,6 +23,13 @@ body {
 	padding: 30px 0;
 	text-align: right;
 	color: maroon;
+	font-weight: bold;
+}
+
+#content {
+	color: white;
+	font-size: 30px;
+	font-weight: bold;
 }
 
 .got-display {
