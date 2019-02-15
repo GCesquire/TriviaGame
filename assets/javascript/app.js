@@ -1,19 +1,12 @@
 $(document).ready(function() {
-  //Creating variable to track the question & "slide" numbers
+
   var queries = 0;
-  
-  // timeout 
   var transitionTimeout = 2000;
-  
-  //Creating score variables
   var rightAnswers = 0;
   var wrongAnswers = 0;
   var passedAnswers = 0;
-  
-  //Creating array of user's answers
   var playerAnswers = [];
-  
-  //Creating an array of objects with the questions, answer options, and correct answer
+
   var questions = [
   {
     question: "Which of these is NOT a Noble Westerosi House?",
@@ -66,53 +59,48 @@ $(document).ready(function() {
     correctAnswer: 0
   }];
   
-  //Function to submit answers
   const submitAnswers = () => {
     $("#submit").on("click", function(x) {
       x.preventDefault();
       playerAnswers.length = 0;
-        
-      //Record user answer to question
-      var userSelection = $("#answers input:radio[name=optionsRadios]:checked").val();
-      playerAnswers.push(userSelection);
+      var playerSelection = $("#answers input:radio[name=optionsRadios]:checked").val();
+      playerAnswers.push(playerSelection);
       console.log(playerAnswers);
-      nextQ();
+      updateQuestion();
     });
   };
     
-  //Creating question timer variables & functions
-  var timeLeft = 8;
-  var increment;
+  var remainingTime = 10;
+  var setTime;
   
-  const runTimer = () => {
-    increment = setInterval(decrement, 1000);
+  const timer = () => {
+    setTime = setInterval(countdown, 1000);
   };
   
-  const decrement = () => {
-    timeLeft--;
-    $("#timer-info").html("Time remaining: " + timeLeft + " seconds");
-    if (timeLeft === 0) {
+  const countdown = () => {
+    remainingTime--;
+    $("#timer-info").html("Time remaining: " + remainingTime + " seconds");
+    if (remainingTime === 0) {
       stopTimer();
       playerAnswers.length = 0;		
-      //Record user answer to question
-      var userSelection = $("#answers input:radio[name=optionsRadios]:checked").val();
-      playerAnswers.push(userSelection);
+      var playerSelection = $("#answers input:radio[name=optionsRadios]:checked").val();
+      playerAnswers.push(playerSelection);
       console.log(playerAnswers);
-      nextQ();
+      updateQuestion();
     };
   };
   
   const resetTimer = () => {
-    timeLeft = 8;
-    $("#timer-info").html("Time remaining: " + timeLeft + " seconds");
+    remainingTime = 10;
+    $("#timer-info").html("Time remaining: " + remainingTime + " seconds");
   };
   
   const displayTimer = () => {
-    $("#timer-info").html("Answer Review");
+    $("#timer-info").html("Answer Evaluation");
   };
   
   const stopTimer = () => {
-    clearInterval(increment);
+    clearInterval(setTime);
   };
   
   //Function to display the given response options
@@ -128,14 +116,14 @@ $(document).ready(function() {
   
   //Function to display the given question
   const displayQ = () => {
-    clearQ();
+    refreshQuestion();
     resetTimer();
     $(".questions").html(questions[queries].question);
     //Calling the function to display the response options
     createRadios();
     //Creating submit button
     $("#submit-div").append('<button type="submit" class="btn btn-default" id="submit">' + "Submit" + '</button>');
-    runTimer()
+    timer()
     submitAnswers();
   };
   
@@ -146,7 +134,7 @@ $(document).ready(function() {
     $("#start-button").on("click", function(event) {
       event.preventDefault();
       //Displays the first question
-      firstQ();
+      initialQuestion();
       resetTimer();
     });
   };
@@ -163,20 +151,20 @@ $(document).ready(function() {
   
   //Display end page
   const displayEnd = () => {
-    clearQ();
+    refreshQuestion();
     $("#content").append('<h3>' + "Correct answers: " + rightAnswers + '</h3><br><h3>' + "Incorrect answers: " + wrongAnswers + '</h3><br><h3>' + "Skipped questions: " + passedAnswers + '</h3><br><br><a href="#" class="btn btn-primary btn-lg" id="restart-button">' + "Restart Game" + '</a>');
     //Restart game
     $("#restart-button").on("click", function(event) {
       event.preventDefault();
       //Displays the first question
       reset();
-      clearQ();
+      refreshQuestion();
       gameStart();
     });
   };
   
   //Function to clear the question
-  const clearQ = () => {
+  const refreshQuestion = () => {
     var questionDiv = $(".questions");
     questionDiv.empty();
   
@@ -194,7 +182,7 @@ $(document).ready(function() {
   
   //Showing whether answer was right/wrong
   const checkQ = () => {
-    clearQ();
+    refreshQuestion();
     var correctAnswer = questions[queries].correctAnswer;
     if (playerAnswers[0] == questions[queries].correctAnswer) {
       $("#content").append('<h3>'+"Congratulations! You chose the right answer!" + '</h3>');
@@ -214,7 +202,7 @@ $(document).ready(function() {
   };
   
   //Function to change the question 
-  const nextQ = () => {
+  const updateQuestion = () => {
     checkQ();
     //Incrementing the count by 1
     queries++;
@@ -228,13 +216,12 @@ $(document).ready(function() {
   };
   
   //Function to call the first question
-  const firstQ = () => {
+  const initialQuestion = () => {
     var startContent = $("#content");
     startContent.empty(); 
     displayQ();
   };
   
-  //Displays the start page
   gameStart();
   
   });
