@@ -96,7 +96,7 @@ $(document).ready(function() {
   };
   
   const displayTimer = () => {
-    $("#timer-info").html("Answer Evaluation");
+    $("#timer-info").html("Results");
   };
   
   const stopTimer = () => {

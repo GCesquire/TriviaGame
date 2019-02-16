@@ -1,11 +1,12 @@
 #got-header {
-	background: url("");
+	background-image: "http://i.imgur.com/u7VsU.jpg";
+	text-shadow: 5px 5px 8px #000000;
 }
 
 body {
 	background-image: url("https://www.pixelstalk.net/wp-content/uploads/2015/11/game-of-thrones-background-desktop-hd-free-download.jpg");
+	font-size: 25px;
 	color: whitesmoke;
-	font-size: 40px;
 	font-weight: bold;
  }
 
@@ -25,6 +26,7 @@ body {
 	color: maroon;
 	font-weight: bold;
 }
+
 
 #content {
 	color: white;
