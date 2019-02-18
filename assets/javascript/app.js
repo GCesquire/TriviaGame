@@ -117,13 +117,13 @@ $(document).ready(function() {
     resetTimer();
     $(".questions").html(questions[queries].question);
     optionGenerator();
-    $("#submit-div").append('<button type="submit" class="btn btn-default" id="submit">' + "Submit" + '</button>');
+    $("#submit-div").append('<button type="submit" class="btn btn-lg" id="submit">' + "Submit Answer" + '</button>');
     timer()
     submitAnswers();
   };
   
   const gameStart = () => {
-    $("#content").append('<a href="#" class="btn btn-primary btn-lg" id="start-button">' + "Start" + '</a>');
+    $("#content").append('<a href="#" class="btn btn-danger btn-lg" id="start-button">' + "Start Game" + '</a>');
     $("#start-button").on("click", function(event) {
       event.preventDefault();
       initialQuestion();

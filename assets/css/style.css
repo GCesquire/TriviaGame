@@ -8,6 +8,7 @@ body {
 	font-size: 25px;
 	color: whitesmoke;
 	font-weight: bold;
+	text-shadow: 5px 5px 8px #000000;
  }
 
 #header {
@@ -20,6 +21,21 @@ body {
 	background-color: maroon;
 }
 
+#start-button{ 
+	background-color: maroon;
+	color: whitesmoke;
+}
+
+#submit{
+	background-color: maroon;
+	color: whitesmoke;
+}
+
+#restart-button{
+	background-color: maroon;
+	color: whitesmoke;
+}
+
 .footer {
 	padding: 30px 0;
 	text-align: right;
@@ -29,12 +45,14 @@ body {
 
 
 #content {
-	color: white;
+	color: whitesmoke;
 	font-size: 30px;
 	font-weight: bold;
+	text-shadow: 5px 5px 8px #000000;
 }
 
 .got-display {
 	margin-right: 20px;
-	font-size: 40px;
+	font-size: 30px;
+	text-shadow: 5px 5px 8px #000000;
 }
